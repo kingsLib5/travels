@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FaTags, FaGift } from 'react-icons/fa'
+import { FaTags, FaGift, FaArrowRight, FaCrown, FaShieldAlt, FaPiggyBank } from 'react-icons/fa'
 
 // Update these imports to point to where your images actually live
 import travels1 from '../../assets/travels.jpeg'
@@ -15,6 +15,8 @@ const cards = [
     cta: 'Explore bundles',
     img: travels1,
     accent: 'From flights + hotels',
+    icon: <FaPiggyBank className="text-emerald-400 text-xl" />,
+    gradient: 'from-blue-500/20 to-emerald-500/20'
   },
   {
     id: 2,
@@ -23,6 +25,8 @@ const cards = [
     cta: 'See how it works',
     img: travels2,
     accent: 'Flexible cancellations',
+    icon: <FaShieldAlt className="text-amber-400 text-xl" />,
+    gradient: 'from-amber-500/20 to-rose-500/20'
   },
   {
     id: 3,
@@ -31,6 +35,8 @@ const cards = [
     cta: 'Join & save',
     img: travels3,
     accent: 'Exclusive prices',
+    icon: <FaCrown className="text-purple-400 text-xl" />,
+    gradient: 'from-purple-500/20 to-pink-500/20'
   },
 ]
 
@@ -46,27 +52,35 @@ const cardV = {
 
 export default function TravelBundles() {
   return (
-    <section className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <header className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-serif font-semibold text-slate-800">Travel bundles & member deals</h2>
-            <p className="text-sm text-slate-500 mt-1">Hand-picked bundles and protections that give you peace of mind.</p>
+    <section className="py-16 bg-gradient-to-b from-slate-50 to-white">
+      <div className="max-w-7xl mx-[140px] px-4 sm:px-6 lg:px-8">
+        <header className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-3">Exclusive Travel Bundles & Member Deals</h2>
+            <p className="text-lg text-slate-600">Hand-picked bundles and protections that give you peace of mind and extra savings.</p>
           </div>
-          <div className="hidden sm:flex items-center gap-3">
-            <button className="inline-flex items-center gap-2 text-sm font-medium px-3 py-2 rounded-full bg-white border border-slate-100 shadow-sm hover:scale-[1.02] transition-transform">
+          <div className="flex items-center gap-3">
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300"
+            >
               <FaTags className="w-4 h-4 text-slate-600" />
               Filters
-            </button>
-            <button className="inline-flex items-center gap-2 text-sm font-medium px-3 py-2 rounded-full bg-emerald-600 text-white shadow hover:bg-emerald-700 transition-colors">
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow hover:shadow-md transition-all duration-300"
+            >
               <FaGift className="w-4 h-4" />
-              Offers
-            </button>
+              Special Offers
+            </motion.button>
           </div>
         </header>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
           variants={containerV}
           initial="hidden"
           whileInView="show"
@@ -76,40 +90,57 @@ export default function TravelBundles() {
             <motion.article
               key={c.id}
               variants={cardV}
-              whileHover={{ y: -8, boxShadow: '0 18px 40px rgba(2,6,23,0.12)' }}
-              className="relative rounded-2xl overflow-hidden bg-white shadow-md flex flex-col"
+              whileHover={{ y: -8, boxShadow: '0 24px 48px rgba(2,6,23,0.12)' }}
+              className="relative rounded-2xl overflow-hidden bg-white shadow-lg flex flex-col group"
               role="region"
               aria-label={c.title}
             >
-              <div className="relative h-44 md:h-48 w-full">
-                <img src={c.img} alt={c.title} className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute left-4 bottom-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 text-xs text-white">
+              <div className="relative h-52 md:h-56 w-full overflow-hidden">
+                <img 
+                  src={c.img} 
+                  alt={c.title} 
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" 
+                />
+                <div className={`absolute inset-0 bg-gradient-to-b ${c.gradient} opacity-60`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                
+                <div className="absolute top-4 left-4 flex items-center gap-2">
+                  <div className="p-2.5 rounded-full bg-white/10 backdrop-blur-md text-white">
+                    {c.icon}
+                  </div>
+                </div>
+                
+                <div className="absolute left-4 bottom-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 text-xs text-white font-medium">
                   {c.accent}
                 </div>
               </div>
 
-              <div className="p-5 flex-1 flex flex-col justify-between">
+              <div className="p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-serif font-semibold text-slate-800">{c.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{c.subtitle}</p>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">{c.title}</h3>
+                  <p className="mt-2 text-slate-600 leading-relaxed">{c.subtitle}</p>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between gap-4">
+                <div className="mt-6 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <button className="text-sm text-emerald-600 font-medium hover:underline focus:outline-none">Learn more</button>
-                    <span className="hidden sm:inline-block h-6 w-px bg-slate-100" />
-                    <span className="text-xs text-slate-400">Limited time</span>
+                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Limited time</span>
                   </div>
 
-                  <motion.button whileTap={{ scale: 0.97 }} className="rounded-full bg-emerald-600 text-white px-4 py-2 text-sm font-medium shadow hover:bg-emerald-700 focus:outline-none">
+                  <motion.button 
+                    whileTap={{ scale: 0.97 }} 
+                    className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-5 py-2.5 text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 group/btn"
+                  >
                     {c.cta}
+                    <FaArrowRight className="text-xs transition-transform duration-300 group-hover/btn:translate-x-1" />
                   </motion.button>
                 </div>
               </div>
             </motion.article>
           ))}
         </motion.div>
+
+        {/* Additional CTA at bottom */}
+        
       </div>
     </section>
   )

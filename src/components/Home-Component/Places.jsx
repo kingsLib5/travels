@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaChevronLeft, FaChevronRight, FaStar, FaHeart } from 'react-icons/fa'
+import { IoIosWater } from 'react-icons/io'
 
 // Import your images — adjust paths if needed
 import see from '../../assets/see.jpg'
@@ -7,11 +8,11 @@ import see2 from '../../assets/see2.jpg'
 import see1 from '../../assets/see1.jpg'
 
 const places = [
-  { id: 1, title: 'Rooftop Pool', subtitle: 'City view · Heated', img: see },
-  { id: 2, title: 'Infinity Pool', subtitle: 'Oceanfront · Bar', img: see2 },
-  { id: 3, title: 'Private Villa Pool', subtitle: 'Secluded · Private dining', img: see1 },
-  { id: 4, title: 'Lagoon Pool', subtitle: 'Family friendly · Shallow end', img: see },
-  { id: 5, title: 'Sunset Pool', subtitle: 'Romantic · Sunset views', img: see2 },
+  { id: 1, title: 'Rooftop Pool', subtitle: 'City view · Heated', img: see, price: 129, rating: 4.8, reviews: 142, isNew: true },
+  { id: 2, title: 'Infinity Pool', subtitle: 'Oceanfront · Bar', img: see2, price: 199, rating: 4.9, reviews: 213, isFavorite: true },
+  { id: 3, title: 'Private Villa Pool', subtitle: 'Secluded · Private dining', img: see1, price: 325, rating: 4.7, reviews: 87 },
+  { id: 4, title: 'Lagoon Pool', subtitle: 'Family friendly · Shallow end', img: see, price: 159, rating: 4.6, reviews: 104, isNew: true },
+  { id: 5, title: 'Sunset Pool', subtitle: 'Romantic · Sunset views', img: see2, price: 179, rating: 4.8, reviews: 156 },
 ]
 
 export default function Places() {
@@ -20,6 +21,7 @@ export default function Places() {
   const [cardWidth, setCardWidth] = useState(320)
   const [visible, setVisible] = useState(3)
   const [current, setCurrent] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
   const gap = 20 // px (matches Tailwind gap-5 approx)
   const autoplayRef = useRef(null)
 
@@ -28,14 +30,15 @@ export default function Places() {
     function update() {
       const w = window.innerWidth
       let v = 1
-      if (w >= 1024) v = 3
+      if (w >= 1280) v = 4
+      else if (w >= 1024) v = 3
       else if (w >= 768) v = 2
       else v = 1
       setVisible(v)
 
       const container = containerRef.current
       if (!container) return
-      const containerWidth = Math.min(container.clientWidth, 1120)
+      const containerWidth = Math.min(container.clientWidth, 1280)
       const cw = Math.floor((containerWidth - gap * (v - 1)) / v)
       setCardWidth(cw)
     }
@@ -96,8 +99,10 @@ export default function Places() {
     return () => window.removeEventListener('keydown', onKey)
   }, [current, cardWidth, visible])
 
-  // autoplay
+  // autoplay with pause on hover
   useEffect(() => {
+    if (isHovering) return
+    
     autoplayRef.current = setInterval(() => {
       const maxIndex = Math.max(0, Math.ceil(places.length - visible))
       setCurrent((c) => {
@@ -106,78 +111,108 @@ export default function Places() {
         return nextIdx
       })
     }, 4000)
+    
     return () => clearInterval(autoplayRef.current)
-  }, [cardWidth, visible])
+  }, [cardWidth, visible, isHovering])
 
   return (
-    <section className="py-12 bg-gray-50" aria-label="Popular places">
-      <div className="max-w-7xl mx-auto px-4" ref={containerRef}>
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-800">Popular Places</h2>
-            <p className="text-sm text-slate-500">Hand-picked stays our customers love</p>
+    <section className="py-16 bg-gradient-to-b from-slate-50 to-white" aria-label="Popular places">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={containerRef}>
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
+          <div className="mb-6 md:mb-0">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-2">Popular Pool Destinations</h2>
+            <p className="text-lg text-slate-600">Hand-picked luxury stays our guests love</p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-end">
             <button
               onClick={prev}
               aria-label="Previous"
-              className="p-2 rounded-full bg-white shadow hover:scale-105 transition-transform"
+              className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-slate-700 hover:text-emerald-600"
             >
-              <FaChevronLeft />
+              <FaChevronLeft className="text-sm" />
             </button>
             <button
               onClick={next}
               aria-label="Next"
-              className="p-2 rounded-full bg-emerald-600 text-white shadow hover:bg-emerald-700 transition-colors"
+              className="p-3 rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 hover:shadow-xl transition-all duration-300"
             >
-              <FaChevronRight />
+              <FaChevronRight className="text-sm" />
             </button>
           </div>
         </div>
 
         <div
           ref={trackRef}
-          className="no-scrollbar overflow-x-auto snap-x snap-mandatory flex gap-5 py-2 px-1"
+          className="no-scrollbar overflow-x-auto snap-x snap-mandatory flex gap-5 py-4 px-1"
           style={{ scrollSnapType: 'x mandatory' }}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
           {places.map((p) => (
             <article
               key={p.id}
-              className="snap-start flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-md relative"
+              className="snap-start flex-shrink-0 rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 relative group"
               style={{ width: `${cardWidth}px` }}
               aria-label={p.title}
             >
-              <div className="relative h-56">
-                <img src={p.img} alt={p.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                <div className="absolute left-4 bottom-4 text-white">
-                  <h3 className="text-lg font-semibold">{p.title}</h3>
-                  <p className="text-sm opacity-80">{p.subtitle}</p>
+              <div className="relative h-60 overflow-hidden">
+                <img 
+                  src={p.img} 
+                  alt={p.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                
+                <div className="absolute top-4 left-4 flex items-center gap-2">
+                  {p.isNew && (
+                    <span className="bg-emerald-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">New</span>
+                  )}
+                  <button className="p-2 rounded-full bg-white/90 backdrop-blur-sm text-slate-700 hover:text-rose-500 transition-colors">
+                    <FaHeart className={p.isFavorite ? "text-rose-500" : ""} />
+                  </button>
                 </div>
-                {/* <div className="absolute right-4 top-4 bg-white/90 rounded-full px-3 py-1 text-sm font-medium text-slate-800">New</div> */}
+                
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                  <h3 className="text-xl font-bold mb-1">{p.title}</h3>
+                  <p className="text-sm opacity-90 flex items-center gap-1 mb-2">
+                    <IoIosWater className="text-blue-200" />
+                    {p.subtitle}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+                      <FaStar className="text-amber-400 text-xs" />
+                      <span className="text-sm font-medium">{p.rating}</span>
+                      <span className="text-xs opacity-80">({p.reviews})</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="p-4 flex items-center justify-between">
+              <div className="p-5 flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600">From</p>
-                  <div className="text-lg font-semibold text-slate-900">$129</div>
+                  <p className="text-xs text-slate-500 uppercase tracking-wide">Starting from</p>
+                  <div className="text-xl font-bold text-slate-900">${p.price}
+                    <span className="text-sm font-normal text-slate-600"> / night</span>
+                  </div>
                 </div>
 
-                {/* <button className="rounded-full bg-emerald-600 text-white px-4 py-2 text-sm font-medium shadow hover:bg-emerald-700 focus:outline-none">Reserve</button> */}
+                <button className="rounded-full bg-emerald-600 text-white px-5 py-2.5 text-sm font-medium shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                  Reserve
+                </button>
               </div>
             </article>
           ))}
         </div>
 
         {/* dots */}
-        <div className="mt-4 flex items-center justify-center gap-2">
+        <div className="mt-8 flex items-center justify-center gap-2">
           {Array.from({ length: Math.max(1, Math.ceil(places.length - (visible - 1))) }).map((_, i) => (
             <button
               key={i}
               onClick={() => { setCurrent(i); scrollTo(i) }}
               aria-label={`Go to slide ${i + 1}`}
-              className={`h-2.5 transition-all duration-200 ${current === i ? 'w-9 bg-emerald-700 rounded-full' : 'w-2.5 bg-slate-300 rounded-full'}`}
+              className={`h-3 transition-all duration-300 rounded-full ${current === i ? 'w-8 bg-emerald-600' : 'w-3 bg-slate-300 hover:bg-slate-400'}`}
             />
           ))}
         </div>
