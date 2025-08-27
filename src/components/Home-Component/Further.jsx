@@ -41,52 +41,13 @@ export default function Further() {
               Go further with SkyLink Flights
             </h2>
 
-            <p className="text-sm text-slate-600 max-w-prose leading-relaxed">
+            {/* <p className="text-sm text-slate-600 max-w-prose leading-relaxed">
               Save on select hotels and earn <span className="font-semibold text-emerald-600">OneKeyCash</span> on bookings in the app.
-              Our app deals help you travel more and manage everything on the go — quick booking, mobile check-in, and exclusive member perks.
-            </p>
+              Our app deals help you travel more and manage everything on the go quick booking, mobile check-in, and exclusive member perks.
+            </p> */}
 
-            <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow focus:outline-none focus:ring-2 focus:ring-emerald-200"
-                aria-label="Download on the App Store"
-              >
-                <FaApple />
-                <span>App Store</span>
-                <FaChevronRight className="ml-1 text-xs" />
-              </a>
-
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow focus:outline-none focus:ring-2 focus:ring-slate-300"
-                aria-label="Get it on Google Play"
-              >
-                <FaGooglePlay />
-                <span>Google Play</span>
-                <FaChevronRight className="ml-1 text-xs" />
-              </a>
-
-              <button
-                onClick={() => setShowQR(true)}
-                className="ml-0 sm:ml-2 inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium bg-white hover:bg-slate-50 focus:outline-none"
-                aria-haspopup="dialog"
-                aria-expanded={showQR}
-              >
-                Scan QR
-              </button>
-            </div>
-
-            <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-600">
-              <li className="flex items-start gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 mt-2" />
-                <span><strong className="font-medium">Exclusive offers</strong> — app-only hotel discounts and flash sales.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 mt-2" />
-                <span><strong className="font-medium">Fast check-in</strong> — mobile boarding and itinerary at your fingertips.</span>
-              </li>
-            </ul>
+           
+            
           </div>
 
           {/* Right QR column */}
@@ -99,7 +60,7 @@ export default function Further() {
               <img src={qrImg} alt="Scan to download the SkyLink app" className="w-28 h-28 object-contain" />
             </button>
 
-            <p className="text-xs text-slate-500 mt-3 text-center">Scan to download the app</p>
+            <p className="text-xs text-slate-500 mt-3 text-center">Scan for discount</p>
             <a href="#" className="mt-3 text-xs text-emerald-600 hover:underline">Terms apply</a>
           </div>
         </motion.div>

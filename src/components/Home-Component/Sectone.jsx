@@ -131,7 +131,7 @@ function Sectone() {
           </div>
 
           <p className="text-slate-500 mt-2 max-w-lg">
-            Discover a new standard of luxury and comfort in the skies — high legroom, quiet cabins, and thoughtful amenities for every traveler.
+            Discover a new standard of luxury and comfort in the skies high legroom, quiet cabins, and thoughtful amenities for every traveler.
           </p>
 
           <div className="flex items-center gap-2 mt-4">
