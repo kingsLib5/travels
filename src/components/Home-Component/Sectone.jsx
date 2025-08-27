@@ -164,7 +164,7 @@ function Sectone() {
               onClick={() => setIsOpen(true)}
               whileHover={{ y: -3, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-[86%] md:w-full bg-[#0f766e] text-white px-6 py-3 rounded-2xl text-lg font-semibold shadow-lg focus:outline-none focus:ring-4 focus:ring-sky-200"
+              className="w-[86%] md:w-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-6 py-3 rounded-2xl text-lg font-semibold shadow-lg focus:outline-none focus:ring-4 focus:ring-sky-200"
             >
               Learn more
             </motion.button>
@@ -273,7 +273,7 @@ function Sectone() {
                         onClick={() => alert("Replace with booking flow")}
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.98 }}
-                        className="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-semibold shadow-md transition-colors flex items-center justify-center gap-2"
+                        className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:bg-teal-700 text-white font-semibold shadow-md transition-colors flex items-center justify-center gap-2"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />

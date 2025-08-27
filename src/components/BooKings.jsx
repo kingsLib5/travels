@@ -9,14 +9,17 @@ import {
   Calendar,
   Users,
   Search as SearchIcon,
+  ArrowRight,
+  ChevronDown,
+  RotateCcw
 } from 'lucide-react'
 
 export default function Bookings() {
   const tabs = [
-    { id: 'flights', label: 'Flights', Icon: Plane },
-    { id: 'hotels', label: 'Hotels', Icon: Building },
-    { id: 'cars', label: 'Car Rentals', Icon: Car },
-    { id: 'packages', label: 'Packages', Icon: PackageIcon },
+    { id: 'flights', label: 'Flights', Icon: Plane, color: 'from-blue-500 to-blue-600' },
+    { id: 'hotels', label: 'Hotels', Icon: Building, color: 'from-emerald-500 to-emerald-600' },
+    { id: 'cars', label: 'Car Rentals', Icon: Car, color: 'from-amber-500 to-amber-600' },
+    { id: 'packages', label: 'Packages', Icon: PackageIcon, color: 'from-purple-500 to-purple-600' },
   ]
 
   const today = new Date().toISOString().split('T')[0]
@@ -42,6 +45,7 @@ export default function Bookings() {
 
   const [searching, setSearching] = useState(false)
   const tabsRef = useRef(null)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   useEffect(() => {
     // hide return date for one-way flights
@@ -85,25 +89,33 @@ export default function Bookings() {
       {Icon && <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />}
       <input
         {...props}
-        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
+        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white shadow-sm transition-all"
       />
     </div>
   )
 
   return (
-    <section className="min-h-[60vh] mt-12 py-12 bg-[url('./assets/trav.jpg')] bg-center bg-cover">
+    <section className="min-h-[60vh] mt-12 py-16 bg-[url(./assets/trav.jpg)] bg-no-repeat bg-cover bg-center ">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden">
-          <header className="px-6 py-6 md:flex md:items-center md:justify-between border-b">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100"
+        >
+          <header className="px-8 py-6 md:flex md:items-center md:justify-between border-b border-slate-100">
             <div>
-              <h2 className="text-2xl font-semibold text-slate-800">Book Your Journey</h2>
-              <p className="text-sm text-slate-500">Find the best deals for your next adventure</p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">Plan Your Journey</h2>
+              <p className="text-slate-600 mt-1">Find the best deals for your next adventure</p>
             </div>
             <div className="mt-4 md:mt-0">
-              <div className="inline-flex items-center gap-3 rounded-full bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 px-4 py-2.5 text-sm font-medium text-emerald-700 shadow-sm border border-emerald-100"
+              >
                 <Calendar className="w-4 h-4" />
                 <span>Flexible Dates</span>
-              </div>
+              </motion.div>
             </div>
           </header>
 
@@ -112,22 +124,32 @@ export default function Bookings() {
             ref={tabsRef}
             onKeyDown={onTabsKeyDown}
             aria-label="Booking types"
-            className="flex gap-2 px-4 py-3 border-b overflow-auto"
+            className="flex gap-2 px-6 py-4 border-b border-slate-100 overflow-auto bg-slate-50"
           >
             {tabs.map((t) => (
-              <button
+              <motion.button
                 key={t.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveTab(t.id)}
                 aria-selected={activeTab === t.id}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none ${
+                className={`relative flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 focus:outline-none ${
                   activeTab === t.id
-                    ? 'bg-emerald-600 text-white shadow-md'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? ` bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-md`
+                    : 'text-slate-700 hover:bg-white hover:shadow-sm'
                 }`}
               >
                 <t.Icon className="w-4 h-4" />
                 <span>{t.label}</span>
-              </button>
+                {activeTab === t.id && (
+                  <motion.div 
+                    className="absolute inset-0 rounded-xl border-2 border-emerald-400/30"
+                    layoutId="activeTab"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </motion.button>
             ))}
           </nav>
 
@@ -143,9 +165,9 @@ export default function Bookings() {
               >
                 {/* Flights */}
                 {activeTab === 'flights' && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">From</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">From</label>
                       <Input
                         icon={MapPin}
                         placeholder="Departure city"
@@ -156,7 +178,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">To</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">To</label>
                       <Input
                         icon={MapPin}
                         placeholder="Destination city"
@@ -167,14 +189,19 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-2">
                         <label className="text-sm font-medium text-slate-700">Departure</label>
-                        <label className="flex items-center gap-2 text-sm text-slate-500">
-                          <input
-                            type="checkbox"
-                            checked={form.roundTrip}
-                            onChange={(e) => update('roundTrip', e.target.checked)}
-                          />
+                        <label className="flex items-center gap-2 text-sm text-slate-500 cursor-pointer">
+                          <div className="relative inline-flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={form.roundTrip}
+                              onChange={(e) => update('roundTrip', e.target.checked)}
+                              className="sr-only"
+                            />
+                            <div className={`w-10 h-5 rounded-full transition-colors ${form.roundTrip ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                            <div className={`absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${form.roundTrip ? 'transform translate-x-5' : ''}`} />
+                          </div>
                           Round trip
                         </label>
                       </div>
@@ -189,8 +216,8 @@ export default function Bookings() {
                       />
 
                       {form.roundTrip && (
-                        <div className="mt-2">
-                          <label className="text-sm font-medium text-slate-700">Return</label>
+                        <div className="mt-3">
+                          <label className="text-sm font-medium text-slate-700 mb-2 block">Return</label>
                           <Input
                             icon={Calendar}
                             type="date"
@@ -207,9 +234,9 @@ export default function Bookings() {
 
                 {/* Hotels */}
                 {activeTab === 'hotels' && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Destination</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Destination</label>
                       <Input
                         icon={MapPin}
                         placeholder="Where are you going?"
@@ -220,7 +247,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Check-in</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Check-in</label>
                       <Input
                         icon={Calendar}
                         type="date"
@@ -232,7 +259,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Check-out</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Check-out</label>
                       <Input
                         icon={Calendar}
                         type="date"
@@ -247,9 +274,9 @@ export default function Bookings() {
 
                 {/* Cars */}
                 {activeTab === 'cars' && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Pick-up</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Pick-up</label>
                       <Input
                         icon={MapPin}
                         placeholder="Pick-up location"
@@ -260,7 +287,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Pick-up Date</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Pick-up Date</label>
                       <Input
                         icon={Calendar}
                         type="date"
@@ -272,7 +299,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Return Date</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Return Date</label>
                       <Input
                         icon={Calendar}
                         type="date"
@@ -287,9 +314,9 @@ export default function Bookings() {
 
                 {/* Packages */}
                 {activeTab === 'packages' && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Destination</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Destination</label>
                       <Input
                         icon={MapPin}
                         placeholder="Where do you want to go?"
@@ -300,7 +327,7 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Travel Date</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Travel Date</label>
                       <Input
                         icon={Calendar}
                         type="date"
@@ -312,11 +339,11 @@ export default function Bookings() {
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-slate-700">Travelers</label>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Travelers</label>
                       <div className="relative">
                         <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                         <select
-                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white shadow-sm appearance-none"
                           value={form.travelers}
                           onChange={(e) => update('travelers', Number(e.target.value))}
                           aria-label="Number of travelers"
@@ -326,65 +353,101 @@ export default function Bookings() {
                           <option value={3}>3 Travelers</option>
                           <option value={4}>4+ Travelers</option>
                         </select>
+                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
                       </div>
                     </div>
                   </div>
                 )}
 
                 {/* Additional options */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t mt-6">
-                  <div>
-                    <label className="text-sm font-medium text-slate-700">Passengers</label>
-                    <div className="relative">
-                      <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                      <select
-                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
-                        value={form.passengers}
-                        onChange={(e) => update('passengers', e.target.value)}
-                      >
-                        <option>1 Adult</option>
-                        <option>2 Adults</option>
-                        <option>2 Adults, 1 Child</option>
-                        <option>2 Adults, 2 Children</option>
-                      </select>
+                <motion.div 
+                  initial={false}
+                  animate={{ height: isExpanded ? 'auto' : '0' }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6 border-t mt-6">
+                    <div>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Passengers</label>
+                      <div className="relative">
+                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <select
+                          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white shadow-sm appearance-none"
+                          value={form.passengers}
+                          onChange={(e) => update('passengers', e.target.value)}
+                        >
+                          <option>1 Adult</option>
+                          <option>2 Adults</option>
+                          <option>2 Adults, 1 Child</option>
+                          <option>2 Adults, 2 Children</option>
+                        </select>
+                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium text-slate-700 mb-2 block">Class</label>
+                      <div className="relative">
+                        <select
+                          className="w-full pl-4 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white shadow-sm appearance-none"
+                          value={form.travelClass}
+                          onChange={(e) => update('travelClass', e.target.value)}
+                        >
+                          <option>Economy</option>
+                          <option>Premium Economy</option>
+                          <option>Business</option>
+                          <option>First Class</option>
+                        </select>
+                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+                      </div>
                     </div>
                   </div>
+                </motion.div>
 
-                  <div>
-                    <label className="text-sm font-medium text-slate-700">Class</label>
-                    <select
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
-                      value={form.travelClass}
-                      onChange={(e) => update('travelClass', e.target.value)}
-                    >
-                      <option>Economy</option>
-                      <option>Premium Economy</option>
-                      <option>Business</option>
-                      <option>First Class</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Search */}
-                <div className="flex justify-center pt-6">
+                <div className="flex justify-between items-center pt-6">
                   <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="text-sm text-emerald-600 font-medium flex items-center gap-1 hover:text-emerald-700 transition-colors"
+                  >
+                    {isExpanded ? 'Fewer options' : 'More options'}
+                    <motion.span
+                      animate={{ rotate: isExpanded ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </motion.span>
+                  </button>
+
+                  {/* Search */}
+                  <motion.button
                     onClick={handleSearch}
                     disabled={isSearchDisabled() || searching}
-                    className={`inline-flex items-center gap-3 px-8 py-3 rounded-xl font-semibold text-white shadow-lg transition-transform duration-150 ${
+                    whileHover={isSearchDisabled() || searching ? {} : { scale: 1.05 }}
+                    whileTap={isSearchDisabled() || searching ? {} : { scale: 0.95 }}
+                    className={`inline-flex items-center gap-3 px-8 py-3.5 rounded-xl font-semibold text-white shadow-lg transition-all ${
                       isSearchDisabled() || searching
-                        ? 'bg-emerald-200 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:scale-105'
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-500 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-emerald-600 to-teal-500 hover:shadow-xl'
                     }`}
                     aria-disabled={isSearchDisabled() || searching}
                   >
-                    <SearchIcon className="w-4 h-4" />
-                    {searching ? 'Searching...' : `Search ${tabs.find((t) => t.id === activeTab).label}`}
-                  </button>
+                    {searching ? (
+                      <>
+                        <RotateCcw className="w-4 h-4 animate-spin" />
+                        Searching...
+                      </>
+                    ) : (
+                      <>
+                        <SearchIcon className="w-4 h-4" />
+                        Search {tabs.find((t) => t.id === activeTab).label}
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </motion.button>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

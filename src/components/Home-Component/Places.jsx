@@ -135,7 +135,7 @@ export default function Places() {
             <button
               onClick={next}
               aria-label="Next"
-              className="p-3 rounded-full bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 hover:shadow-xl transition-all duration-300"
+              className="p-3 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-lg hover:bg-emerald-700 hover:shadow-xl transition-all duration-300"
             >
               <FaChevronRight className="text-sm" />
             </button>
@@ -197,7 +197,7 @@ export default function Places() {
                   </div>
                 </div>
 
-                <button className="rounded-full bg-emerald-600 text-white px-5 py-2.5 text-sm font-medium shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                <button className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 text-white px-5 py-2.5 text-sm font-medium shadow-md hover:bg-emerald-700 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                   Reserve
                 </button>
               </div>

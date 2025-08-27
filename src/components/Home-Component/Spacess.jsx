@@ -8,7 +8,7 @@ export default function Space() {
   const textVariants = {
     initial: { color: 'white' },
     animate: {
-      color: ['#fff', '#f0abfc', '#fff'], // Example colors
+      color: ['#029267', '#029257', '#029237'], // Example colors
       transition: {
         duration: 3,
         repeat: Infinity,
