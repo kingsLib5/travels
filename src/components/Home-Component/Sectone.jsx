@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Import images
+import travImg from '../../assets/trav.jpg'; // Corrected path
+import newiVideo from '../../assets/newi.mp4';
+
 function Sectone() {
   const [currentText, setCurrentText] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -92,7 +96,7 @@ function Sectone() {
             playsInline
             aria-hidden
           >
-            <source src="/src/assets/newi.mp4" type="video/mp4" />
+            <source src={newiVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </motion.div>
@@ -207,7 +211,7 @@ function Sectone() {
                   <div className="md:w-2/5 relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent z-10" />
                     <img 
-                      src="/src/assets/trav.jpg" 
+                      src={travImg} 
                       alt="Premium cabin experience" 
                       className="w-full h-full object-cover min-h-[280px]"
                     />

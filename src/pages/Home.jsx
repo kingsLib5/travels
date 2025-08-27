@@ -1,11 +1,11 @@
-// filepath: c:/Users/User/Desktop/travels/src/pages/Home.jsx
-import React from 'react'
-import Sectone from '../components/Home-Component/Sectone'
-import TravelBundles from '../components/Home-Component/TravelBundles'
-import Packages from '../components/Home-Component/Packages'
-import Places from '../components/Home-Component/Places'
-import Space from '../components/Home-Component/Spacess'
-import Further from '../components/Home-Component/Further'
+import React from 'react';
+import Sectone from '../components/Home-Component/Sectone';
+import TravelBundles from '../components/Home-Component/TravelBundles';
+import Packages from '../components/Home-Component/Packages';
+import Places from '../components/Home-Component/Places';
+import Space from '../components/Home-Component/Spacess';
+import Further from '../components/Home-Component/Further';
+import videoBg from '../assets/add.mp4'; 
 
 function Home() {
   return (
@@ -13,7 +13,7 @@ function Home() {
       {/* Background Video */}
       <video
         className=" top-0 fixed left-0 w-full h-full object-cover -z-10"
-        src="/src/assets/add.mp4" 
+        src={videoBg} // Use the imported video
         autoPlay
         loop
         muted
@@ -23,8 +23,6 @@ function Home() {
       {/* Overlay (optional, adds better text contrast) */}
       <div className="absolute inset-0 bg-black/40 -z-10" />
 
-      
-
       {/* Page Content */}
       <div className="relative z-10 grid">
         <Sectone />
@@ -32,10 +30,10 @@ function Home() {
         <Packages />
         <Space />
         <Places />
-        <Further/>
+        <Further />
       </div>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
