@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+
+
+/* src/App.css */
+:root {
+  --nav-height: 64px; /* fallback; JS will overwrite on mount */
+}
+
+.app-content {
+  padding-top: var(--nav-height);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
